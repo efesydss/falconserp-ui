@@ -1,11 +1,13 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router'
+import Template from '../Template'
 
 export const Route = createRootRoute({
   component: () =>
  (
     <>
-      {/* Outlet burada tüm alt rotaları gösterecek */}
-      <Outlet />
+      <Template>
+         <Outlet />
+      </Template>
     </>
  ),
 })

@@ -1,6 +1,7 @@
 import React from "react";
 import { Inbox, MailOutline, MenuBook, SearchRounded, Mail, NotificationsActive, AccountCircle, MoreHoriz, MenuOpenSharp } from "@mui/icons-material";
 import { alpha, AppBar, Badge, Box, CssBaseline, Divider, Drawer, IconButton, InputBase, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, styled, Toolbar, Typography } from "@mui/material";
+import { useNavigate } from "@tanstack/react-router";
 
 const drawerWidth = 240;
 
@@ -51,6 +52,7 @@ export default function Template({ children }: TemplateProps) {
   // Debugging: console log ekle
   console.log("Template render ediliyor...");
 
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -86,11 +88,17 @@ export default function Template({ children }: TemplateProps) {
     setIsDrawerOpen(!isDrawerOpen);
   };
 
-  const handleDrawerItemClick = () => {
+  const handleDrawerItemClick = (path: string) => {
     console.log("Drawer item tıklanıyor...");
+    navigate({ to: path })
     setIsDrawerOpen(false); // Drawer'ı kapat
   };
+  const paths: { [key: string]: string } = {
 
+    'All mail': '/#',
+    'Trash': '/#',
+    'Users': '/test',
+  };
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -189,7 +197,7 @@ export default function Template({ children }: TemplateProps) {
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem component="li" key={text}>
-              <ListItemButton onClick={handleDrawerItemClick}>
+              <ListItemButton onClick={() => handleDrawerItemClick(paths[text])}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <Inbox /> : <MailOutline />}
                 </ListItemIcon>
@@ -200,9 +208,9 @@ export default function Template({ children }: TemplateProps) {
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          {['All mail', 'Trash', 'Users'].map((text, index) => (
             <ListItem component="li" key={text}>
-              <ListItemButton onClick={handleDrawerItemClick}>
+              <ListItemButton onClick={() => handleDrawerItemClick(paths[text])}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <Inbox /> : <MailOutline />}
                 </ListItemIcon>
